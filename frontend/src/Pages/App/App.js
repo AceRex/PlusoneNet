@@ -15,11 +15,36 @@ function Main() {
           image={Image1}
           amount={300000}
         />
-        <Itemcard title={"Smart watch pro 2"} category="food" image={Image2} />
-        <Itemcard title={"Smart watch pro 1"} category="Watch" image={Image1} />
-        <Itemcard title={"Smart watch pro 2"} category="Watch" image={Image2} />
-        <Itemcard title={"Smart watch pro 1"} category="Watch" image={Image1} />
-        <Itemcard title={"Smart watch pro 2"} category="Watch" image={Image2} />
+        <Itemcard
+          title={"Smart watch pro 2"}
+          category="food"
+          image={Image2}
+          amount={17000}
+        />
+        <Itemcard
+          title={"Smart watch pro 1"}
+          category="Watch"
+          image={Image1}
+          amount={12000}
+        />
+        <Itemcard
+          title={"Smart watch pro 2"}
+          category="Watch"
+          image={Image2}
+          amount={60000}
+        />
+        <Itemcard
+          title={"Smart watch pro 1"}
+          category="Watch"
+          image={Image1}
+          amount={200000.05}
+        />
+        <Itemcard
+          title={"Smart watch pro 2"}
+          category="Watch"
+          image={Image2}
+          amount={999.99}
+        />
       </Row>
     </>
   );
