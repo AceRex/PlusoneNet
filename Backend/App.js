@@ -1,7 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
+import router from "./route/Routes.js";
+import connectDB from "./config/config.js";
+import { notFound, errorHandler } from "./middleware/middleware.js";
 
 dotenv.config();
+connectDB();
 
 const port = process.env.PORT || 5090;
 const app = express();
@@ -9,5 +13,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/api", (req, res) => res.send("You are now connected to the server"));
+app.use("/api", router);
+
+app.get("/", (req, res) => res.send("You are now connected to the server"));
+
+app.use(notFound);
+app.use(errorHandler);
+
 app.listen(port, () => console.log(`listening on ${port}`));
