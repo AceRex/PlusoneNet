@@ -7,7 +7,7 @@ function Register() {
   return (
     <div className="flex w-[100vw] h-[100vh]">
       <div className="w-[35%] m-auto rounded-lg bg-white shadow-2xl shadow-dark/20 p-12">
-        <h3 className="font-light text-5xl text-dark/20 tracking-tighter uppercase text-center mb-4">
+        <h3 className="font-light text-4xl text-dark tracking-tighter uppercase text-center mb-4">
           Register
         </h3>
         <form className="p-4">
@@ -20,7 +20,7 @@ function Register() {
               <Link to="/login"> Sign in</Link>
             </span>
           </p>
-          <Button text={"Sign up"} />
+          <Button text={"Sign up"} type="fill" className={"my-4"} variant={"blue"}/>
         </form>
       </div>
     </div>
