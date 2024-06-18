@@ -1,86 +1,125 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { fetchProducts, createProduct } from "../../Redux/slice/productSlice";
+import Input from "../../Components/input";
+import Textarea from "../../Components/textarea";
 import Button from "../../Components/button";
-import { AiOutlineClose } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { OthersAction } from "../../Redux/slice/otherSlice";
 
-function formatToNaira(amount) {
-  return `₦${amount?.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
-}
+const CreateProduct = () => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [amount, setAmount] = useState("");
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
+  const [imagePreview, setImagePreview] = useState("");
 
-function Preview({ image, title, category, amount, description }) {
-  let dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  const openAdminPreview = useSelector(
-    (state) => state.others.openAdminPreview
-  );
-  const [selectedImage, setSelectedImage] = useState(null);
-  const price = formatToNaira(amount);
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append("upload_preset", "tz0uzcxu");
+
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dcjnaao1t/image/upload",
+        formData
+      );
+      const uploadedImageUrl = response.data.secure_url;
+
+      const productData = {
+        title,
+        description,
+        amount,
+        category,
+        image: uploadedImageUrl,
       };
-      reader.readAsDataURL(file);
+
+      dispatch(fetchProducts());
+      dispatch(createProduct(productData));
+
+      setTitle("");
+      setDescription("");
+      setAmount("");
+      setCategory("");
+      setImage(null);
+      setImageUrl("");
+      setImagePreview("");
+    } catch (error) {
+      console.error("There was an error creating the product!", error);
     }
   };
-  const handleClosePreview = () => {
-    dispatch(OthersAction.setOpenAdminPreview(!openAdminPreview))
-  };
+
   return (
-    <div className="w-full h-screen fixed backdrop-blur-md p-24 bg-dark/30 z-50 top-0">
-      <div className="bg-white rounded-lg p-12 flex relative">
-        <Button
-          type={"outline"}
-          icon={<AiOutlineClose />}
-          variant={"blue"}
-          className="absolute w-[3%] p-0 right-3 top-3"
-          onClick={() => handleClosePreview()}
-        />
-        <div className="w-[50%]">
-          {selectedImage && (
-            <div className="w-[500px] h-[500px]">
-              <img src={selectedImage} alt="img" />
-            </div>
-          )}
-          <input type="file" accept="image/*" onChange={handleImageChange} />
-        </div>
-        <div className="w-[50%] p-4">
-          <span className="text-xs text-primary1 ">
-            Click on any of the field to update values
-          </span>
-          <input
-            type="text"
-            value="Smart Watch"
-            className="text-5xl mt-2 tracking-tighter font-bold"
-          />
-          <input
-            type="text"
-            value={"Watch"}
-            className="text-sm text-center bg-primary1 rounded-lg text-primary5 p-1 px-4 font-bold"
-          />
-          <input
-            type="text"
-            value={price}
-            className="text-4xl tracking-tighter font-bold mt-4"
-          />
-          <div className="my-4 pb-4">
-            <textarea
-              rows={7}
-              value={""}
-              className="text-lg w-[100%] text-dark/40 overflow-hidden overflow-y-scroll no-scrollbar "
+    <div className="w-[100vw] h-[100vh] fixed top-0 bg-dark/30 backdrop-blur-lg z-50 p-24">
+      <div className="bg-white p-12 rounded-lg">
+        <h1 className="text-3xl font-bold text-primary1 tracking-tighter">
+          Create Product
+        </h1>
+        <form onSubmit={submitHandler} className="flex">
+          <div className="w-[50%] p-12">
+            <Input
+              type={"text"}
+              value={title}
+              placeholder={"Product Title"}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+            <Input
+              type={"text"}
+              value={category}
+              placeholder={"category"}
+              onChange={(e) => setCategory(e.target.value)}
+              required
+            />
+            <Textarea
+              row={7}
+              value={description}
+              placeholder={"description"}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+            <Input
+              type={"number"}
+              value={amount}
+              placeholder={"amount"}
+              onChange={(e) => setAmount(e.target.value)}
+              required
             />
           </div>
-          <Button type={"fill"} text={"Update"} variant={"blue"} />
-        </div>
+          <div className="w-[50%] p-10">
+            <div>
+              <Input
+                type={"file"}
+                accept="image/*"
+                onChange={handleFileChange}
+                required
+              />
+              <div className="w-[100%] h-[18rem] mb-4 overflow-hidden rounded-lg border-2 border-neutral">
+                {imagePreview && (
+                  <img
+                    src={imagePreview}
+                    alt="preview"
+                    className="mt-2 w-[300px] object-contain"
+                  />
+                )}
+              </div>
+            </div>
+            <Button type={"fill"} variant={"blue"} text={"Create product"} />
+          </div>
+        </form>
       </div>
     </div>
   );
-}
-export default Preview;
+};
+
+export default CreateProduct;

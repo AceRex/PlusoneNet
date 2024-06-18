@@ -3,6 +3,7 @@ import Button from "../../Components/button";
 import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { OthersAction } from "../../Redux/slice/otherSlice";
+import { TiInfo } from "react-icons/ti";
 
 function formatToNaira(amount) {
   return `₦${amount?.toLocaleString(undefined, {
@@ -31,16 +32,16 @@ function Preview({ image, title, category, amount, description }) {
     }
   };
   const handleClosePreview = () => {
-    dispatch(OthersAction.setOpenAdminPreview(!openAdminPreview))
+    dispatch(OthersAction.setOpenAdminPreview(!openAdminPreview));
   };
   return (
     <div className="w-full h-screen fixed backdrop-blur-md p-24 bg-dark/30 z-50 top-0">
       <div className="bg-white rounded-lg p-12 flex relative">
         <Button
           type={"outline"}
-          icon={<AiOutlineClose />}
+          icon={<AiOutlineClose size={20}/>}
           variant={"blue"}
-          className="absolute w-[3%] p-0 right-3 top-3"
+          className="absolute w-[3%] p-2 right-3 top-3"
           onClick={() => handleClosePreview()}
         />
         <div className="w-[50%]">
@@ -51,14 +52,14 @@ function Preview({ image, title, category, amount, description }) {
           )}
           <input type="file" accept="image/*" onChange={handleImageChange} />
         </div>
-        <div className="w-[50%] p-4">
-          <span className="text-xs text-primary1 ">
-            Click on any of the field to update values
+        <div className="w-[50%] p-2">
+          <span className="text-xs text-primary1 justify-center gap-2 flex items-center bg-primary4 p-2 rounded-lg ">
+            <TiInfo size={20} /> Click on any of the field to update values
           </span>
           <input
             type="text"
             value="Smart Watch"
-            className="text-5xl mt-2 tracking-tighter font-bold"
+            className="text-5xl mt-4 tracking-tighter font-bold"
           />
           <input
             type="text"
