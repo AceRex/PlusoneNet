@@ -16,9 +16,11 @@ import {
 
 router.get("/products", allProduct);
 router.post("/products/create", createProduct);
-router.get("/products/:id", getProductById);
-router.put("/products/:id", updateProductById);
-router.delete("/products/:id", deleteProductById);
+router
+  .route("/products/:id")
+  .get(getProductById)
+  .put(updateProductById)
+  .delete(deleteProductById);
 router.post("/auth/login", authUser);
 router.get("/auth/logout", logoutUser);
 router.post("/auth/register", registerUser);

@@ -19,6 +19,15 @@ export const createProduct = createAsyncThunk(
     return response.data;
   }
 );
+export const getProductById = createAsyncThunk(
+  "products/getProductById",
+  async (productId) => {
+    const response = await axios.get(
+      `http://localhost:5077/api/products/${productId}`
+    );
+    return response.data;
+  }
+);
 
 const productsSlice = createSlice({
   name: "products",
@@ -26,8 +35,16 @@ const productsSlice = createSlice({
     items: [],
     status: "idle",
     error: null,
+    previewItem: null,
   },
-  reducers: {},
+  reducers: {
+    setPreviewItem(state, action) {
+      state.previewItem = action.payload;
+    },
+    clearPreviewItem(state) {
+      state.previewItem = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state) => {
@@ -43,8 +60,12 @@ const productsSlice = createSlice({
       })
       .addCase(createProduct.fulfilled, (state, action) => {
         state.items.push(action.payload);
+      })
+      .addCase(getProductById.fulfilled, (state, action) => {
+        state.previewItem = action.payload;
       });
   },
 });
 
+export const ProductAction = productsSlice.actions;
 export default productsSlice;

@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React, { Suspense } from "react";
 import AdminPortal from "../Pages/AdminPortal";
+import Loading from "../Pages/Loading/Loading";
 const Login = React.lazy(() => import("../Pages/Login/login"));
 const Register = React.lazy(() => import("../Pages/Register/register"));
 const Main = React.lazy(() => import("../Pages/App/App"));
@@ -8,7 +9,7 @@ const Main = React.lazy(() => import("../Pages/App/App"));
 const App = () => {
   return (
     <Router>
-      <Suspense fallback={<h1>Loading...</h1>}>
+      <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

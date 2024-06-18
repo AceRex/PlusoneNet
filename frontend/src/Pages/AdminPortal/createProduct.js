@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { fetchProducts, createProduct } from "../../Redux/slice/productSlice";
 import Input from "../../Components/input";
 import Textarea from "../../Components/textarea";
 import Button from "../../Components/button";
+import { AiOutlineClose } from "react-icons/ai";
+import { OthersAction } from "../../Redux/slice/otherSlice";
 
 const CreateProduct = () => {
   const [title, setTitle] = useState("");
@@ -14,7 +16,9 @@ const CreateProduct = () => {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [imagePreview, setImagePreview] = useState("");
-
+  const createProductModal = useSelector(
+    (state) => state.others.createProductModal
+  );
   const dispatch = useDispatch();
 
   const handleFileChange = (e) => {
@@ -46,6 +50,7 @@ const CreateProduct = () => {
 
       dispatch(fetchProducts());
       dispatch(createProduct(productData));
+      dispatch(OthersAction.setCreateProductModal(!createProductModal));
 
       setTitle("");
       setDescription("");
@@ -59,9 +64,20 @@ const CreateProduct = () => {
     }
   };
 
+  const handleClosePreview = () => {
+    dispatch(OthersAction.setCreateProductModal(!createProductModal));
+  };
+
   return (
     <div className="w-[100vw] h-[100vh] fixed top-0 bg-dark/30 backdrop-blur-lg z-50 p-24">
-      <div className="bg-white p-12 rounded-lg">
+      <div className="bg-white p-12 rounded-lg relative">
+        <Button
+          type={"outline"}
+          icon={<AiOutlineClose size={20} />}
+          variant={"blue"}
+          className="absolute w-[3%] p-2 right-3 top-3"
+          onClick={() => handleClosePreview()}
+        />
         <h1 className="text-3xl font-bold text-primary1 tracking-tighter">
           Create Product
         </h1>

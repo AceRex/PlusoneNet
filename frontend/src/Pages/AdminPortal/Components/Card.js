@@ -1,8 +1,6 @@
 import { MdDelete } from "react-icons/md";
 import { MdEditSquare } from "react-icons/md";
 import { HiEye } from "react-icons/hi";
-import { useDispatch, useSelector } from "react-redux";
-import { OthersAction } from "../../../Redux/slice/otherSlice";
 
 function formatToNaira(amount) {
   return `₦${amount?.toLocaleString(undefined, {
@@ -11,16 +9,8 @@ function formatToNaira(amount) {
   })}`;
 }
 
-function Card({ image, title, category, amount, description }) {
-  let dispatch = useDispatch;
-
-  const openAdminPreview = useSelector(
-    (state) => state.others.openAdminPreview
-  );
-  const handlePreview = () => {
-    dispatch(OthersAction.setOpenAdminPreview(!openAdminPreview));
-  };
-
+function Card({ image, title, category, amount, description, handleDelete, handlePreview }) {
+ 
   const price = formatToNaira(amount);
 
   return (
@@ -45,7 +35,7 @@ function Card({ image, title, category, amount, description }) {
           {price}
         </p>
         <div className="flex justify-between w-[50%] m-auto mt-3 gap-3">
-          <button className="bg-primary5 p-2 text-xl text-primary3 hover:text-primary1 rounded-lg">
+          <button onClick={handleDelete} className="bg-primary5 p-2 text-xl text-primary3 hover:text-primary1 rounded-lg">
             <MdDelete />
           </button>
           <button className="bg-primary5 p-2 text-xl text-primary3 hover:text-primary1 rounded-lg">

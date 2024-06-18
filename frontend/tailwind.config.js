@@ -11,6 +11,7 @@ module.exports = {
       dark: "#181818",
       neutral: "#f0f0f0",
       white: "#fff",
+      error: "#B9434C"
     },
     extend: {},
   },

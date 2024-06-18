@@ -4,7 +4,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { OthersAction } from "../../Redux/slice/otherSlice";
 import { TiInfo } from "react-icons/ti";
-import { ProductAction, getProductById } from "../../Redux/slice/productSlice";
+import { getProductById } from "../../Redux/slice/productSlice";
 import Input from "../../Components/input";
 
 function formatToNaira(amount) {
@@ -14,39 +14,32 @@ function formatToNaira(amount) {
   })}`;
 }
 
-function Preview({ id }) {
-  const dispatch = useDispatch();
-  const previewItem = useSelector((state) => state.products.previewItem);
+function Preview(id) {
+  let dispatch = useDispatch();
+
+  useEffect(() => {
+    getProductById(id);
+  }, [id]);
+
   const openAdminPreview = useSelector(
     (state) => state.others.openAdminPreview
   );
   const [selectedImage, setSelectedImage] = useState(null);
-  const price = formatToNaira(previewItem?.price || 0);
+  const price = formatToNaira(300000);
 
-  useEffect(() => {
-    if (id) {
-      dispatch(getProductById(id));
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
-    return () => {
-      dispatch(ProductAction.clearPreviewItem());
-    };
-  }, [id, dispatch]);
-
-  useEffect(() => {
-    if (previewItem) {
-      setSelectedImage(previewItem.image);
-    }
-  }, [previewItem]);
-
-
+  };
   const handleClosePreview = () => {
     dispatch(OthersAction.setOpenAdminPreview(!openAdminPreview));
   };
-
-  if (!previewItem) {
-    return null;
-  }
-
   return (
     <div className="w-full h-screen fixed backdrop-blur-md p-24 bg-dark/30 z-50 top-0">
       <div className="bg-white rounded-lg p-12 flex gap-4 relative">
@@ -58,23 +51,30 @@ function Preview({ id }) {
           onClick={() => handleClosePreview()}
         />
         <div className="w-[50%]">
-          <div className="w-[450px] h-[450px]">
-            <img src={selectedImage} alt="img" />
-          </div>
+          {selectedImage && (
+            <div className="w-[450px] h-[450px]">
+              <img src={selectedImage} alt="img" />
+            </div>
+          )}
+          <Input
+            type={"file"}
+            accept={"image/*"}
+            onChange={handleImageChange}
+          />
         </div>
         <div className="w-[50%] p-2">
           <span className="text-xs text-primary1 justify-center gap-2 flex items-center bg-primary4 p-2 rounded-lg ">
-            <TiInfo size={20} /> Items cannot be edited from here
+            <TiInfo size={20} /> Click on any of the field to update values
           </span>
           <input
             type="text"
-            value={previewItem.name}
+            value="Smart Watch"
             className="text-5xl mt-4 tracking-tighter font-bold"
             disabled
           />
           <input
             type="text"
-            value={previewItem.category}
+            value={"Watch"}
             className="text-sm text-center bg-primary1 rounded-lg text-primary5 p-1 px-4 font-bold"
             disabled
           />
@@ -87,7 +87,7 @@ function Preview({ id }) {
           <div className="my-4 pb-4">
             <textarea
               rows={7}
-              value={previewItem.description}
+              value={""}
               className="text-lg w-[100%] text-dark/40 overflow-hidden overflow-y-scroll no-scrollbar "
               disabled
             />
@@ -98,5 +98,4 @@ function Preview({ id }) {
     </div>
   );
 }
-
 export default Preview;
