@@ -3,9 +3,14 @@ import Button from "../../Components/button";
 import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { OthersAction } from "../../Redux/slice/otherSlice";
+import {
+  fetchProducts,
+  getProductById,
+  updateProductById,
+} from "../../Redux/slice/productSlice";
 import { TiInfo } from "react-icons/ti";
-import { getProductById } from "../../Redux/slice/productSlice";
 import Input from "../../Components/input";
+import axios from "axios";
 
 function formatToNaira(amount) {
   return `₦${amount?.toLocaleString(undefined, {
@@ -14,32 +19,73 @@ function formatToNaira(amount) {
   })}`;
 }
 
-function Preview(id) {
-  let dispatch = useDispatch();
+function EditProduct({ id }) {
+  const dispatch = useDispatch();
+  const product = useSelector((state) => state.products.previewItem);
+  const editProductModal = useSelector(
+    (state) => state.others.editProductModal
+  );
+
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    getProductById(id);
-  }, [id]);
+    dispatch(getProductById(id));
+  }, [dispatch, id]);
 
-  const openAdminPreview = useSelector(
-    (state) => state.others.openAdminPreview
-  );
-  const [selectedImage, setSelectedImage] = useState(null);
-  const price = formatToNaira(300000);
+  useEffect(() => {
+    if (product) {
+      setTitle(product.title || "");
+      setCategory(product.category || "");
+      setAmount(product.amount || "");
+      setDescription(product.description || "");
+      setSelectedImage(product.image || null);
+    }
+  }, [product]);
 
-  const handleImageChange = (event) => {
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "tz0uzcxu");
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/dcjnaao1t/image/upload",
+          formData
+        );
+
+        setSelectedImage(response.data.secure_url);
+      } catch (error) {
+        console.error("Error uploading image to Cloudinary:", error);
+      }
     }
   };
-  const handleClosePreview = () => {
-    dispatch(OthersAction.setOpenAdminPreview(!openAdminPreview));
+
+  const handleUpdate = async () => {
+    try {
+      const updatedData = {
+        title,
+        category,
+        amount,
+        description,
+        image: selectedImage,
+      };
+      await dispatch(updateProductById({ productId: id, updatedData }));
+      dispatch(fetchProducts());
+      dispatch(OthersAction.setEditProductModal(!editProductModal));
+    } catch (error) {
+      console.error("Failed to update product", error);
+    }
   };
+
+  const handleClosePreview = () => {
+    dispatch(OthersAction.setEditProductModal(!editProductModal));
+  };
+
   return (
     <div className="w-full h-screen fixed backdrop-blur-md p-24 bg-dark/30 z-50 top-0">
       <div className="bg-white rounded-lg p-12 flex gap-4 relative">
@@ -48,12 +94,12 @@ function Preview(id) {
           icon={<AiOutlineClose size={20} />}
           variant={"blue"}
           className="absolute w-[3%] p-2 right-3 top-3"
-          onClick={() => handleClosePreview()}
+          onClick={handleClosePreview}
         />
         <div className="w-[50%]">
           {selectedImage && (
-            <div className="w-[450px] h-[450px]">
-              <img src={selectedImage} alt="img" />
+            <div className="w-[450px] h-[450px] overflow-hidden">
+              <img src={selectedImage} alt="img" className="object-contain" />
             </div>
           )}
           <Input
@@ -68,34 +114,39 @@ function Preview(id) {
           </span>
           <input
             type="text"
-            value="Smart Watch"
-            className="text-5xl mt-4 tracking-tighter font-bold"
-            disabled
+            value={title}
+            className="text-5xl mt-4 tracking-tighter font-bold capitalize"
+            onChange={(e) => setTitle(e.target.value)}
           />
           <input
             type="text"
-            value={"Watch"}
+            value={category}
             className="text-sm text-center bg-primary1 rounded-lg text-primary5 p-1 px-4 font-bold"
-            disabled
+            onChange={(e) => setCategory(e.target.value)}
           />
           <input
             type="text"
-            value={price}
+            value={formatToNaira(amount)}
             className="text-4xl tracking-tighter font-bold mt-4"
-            disabled
+            onChange={(e) => setAmount(e.target.value)}
           />
           <div className="my-4 pb-4">
             <textarea
               rows={7}
-              value={""}
-              className="text-lg w-[100%] text-dark/40 overflow-hidden overflow-y-scroll no-scrollbar "
-              disabled
+              value={description}
+              className="text-lg w-[100%] text-dark/40 overflow-hidden overflow-y-scroll no-scrollbar"
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
-          <Button type={"fill"} text={"Update"} variant={"blue"} />
+          <Button
+            type={"fill"}
+            text={"Update"}
+            variant={"blue"}
+            onClick={handleUpdate}
+          />
         </div>
       </div>
     </div>
   );
 }
-export default Preview;
+export default EditProduct;

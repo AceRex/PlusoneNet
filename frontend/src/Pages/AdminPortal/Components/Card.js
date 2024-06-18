@@ -9,7 +9,7 @@ function formatToNaira(amount) {
   })}`;
 }
 
-function Card({ image, title, category, amount, description, handleDelete, handlePreview }) {
+function Card({ id, image, title, category, amount, description, handleDelete, handleEdit, handlePreview }) {
  
   const price = formatToNaira(amount);
 
@@ -38,7 +38,7 @@ function Card({ image, title, category, amount, description, handleDelete, handl
           <button onClick={handleDelete} className="bg-primary5 p-2 text-xl text-primary3 hover:text-primary1 rounded-lg">
             <MdDelete />
           </button>
-          <button className="bg-primary5 p-2 text-xl text-primary3 hover:text-primary1 rounded-lg">
+          <button onClick={handleEdit} className="bg-primary5 p-2 text-xl text-primary3 hover:text-primary1 rounded-lg">
             <MdEditSquare />
           </button>
           <button

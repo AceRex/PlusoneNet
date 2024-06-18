@@ -5,6 +5,7 @@ const othersSlice = createSlice({
   initialState: {
     openAdminPreview: false,
     createProductModal: false,
+    editProductModal: false,
   },
   reducers: {
     setOpenAdminPreview: (state, action) => {
@@ -12,7 +13,10 @@ const othersSlice = createSlice({
     },
     setCreateProductModal: (state, action) => {
       state.createProductModal = action.payload;
-    }
+    },
+    setEditProductModal: (state, action) => {
+      state.editProductModal = action.payload;
+    },
   },
 });
 

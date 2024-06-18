@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { OthersAction } from "../../Redux/slice/otherSlice";
 import { TiInfo } from "react-icons/ti";
 import { ProductAction, getProductById } from "../../Redux/slice/productSlice";
-import Input from "../../Components/input";
 
 function formatToNaira(amount) {
   return `₦${amount?.toLocaleString(undefined, {
@@ -21,7 +20,7 @@ function Preview({ id }) {
     (state) => state.others.openAdminPreview
   );
   const [selectedImage, setSelectedImage] = useState(null);
-  const price = formatToNaira(previewItem?.price || 0);
+  const price = formatToNaira(previewItem?.amount || 0);
 
   useEffect(() => {
     if (id) {
@@ -37,7 +36,6 @@ function Preview({ id }) {
       setSelectedImage(previewItem.image);
     }
   }, [previewItem]);
-
 
   const handleClosePreview = () => {
     dispatch(OthersAction.setOpenAdminPreview(!openAdminPreview));
@@ -58,17 +56,14 @@ function Preview({ id }) {
           onClick={() => handleClosePreview()}
         />
         <div className="w-[50%]">
-          <div className="w-[450px] h-[450px]">
-            <img src={selectedImage} alt="img" />
+          <div className="w-[450px] h-[450px] overflow-hidden">
+            <img src={selectedImage} alt="img" className="object-contain object-fit" />
           </div>
         </div>
         <div className="w-[50%] p-2">
-          <span className="text-xs text-primary1 justify-center gap-2 flex items-center bg-primary4 p-2 rounded-lg ">
-            <TiInfo size={20} /> Items cannot be edited from here
-          </span>
           <input
             type="text"
-            value={previewItem.name}
+            value={previewItem.title}
             className="text-5xl mt-4 tracking-tighter font-bold"
             disabled
           />
@@ -92,7 +87,10 @@ function Preview({ id }) {
               disabled
             />
           </div>
-          <Button type={"fill"} text={"Update"} variant={"blue"} />
+
+          <span className="text-xs text-primary1 justify-center gap-2 flex items-center bg-primary5 p-2 rounded-lg ">
+            <TiInfo size={20} /> Items cannot be edited from here
+          </span>
         </div>
       </div>
     </div>

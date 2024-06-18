@@ -707,6 +707,10 @@ video {
   width: 30%;
 }
 
+.w-\[60\%\] {
+  width: 60%;
+}
+
 .grid-flow-row {
   grid-auto-flow: row;
 }
@@ -956,6 +960,10 @@ video {
   text-align: center;
 }
 
+.text-start {
+  text-align: start;
+}
+
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -1073,6 +1081,11 @@ video {
 .text-error {
   --tw-text-opacity: 1;
   color: rgb(185 67 76 / var(--tw-text-opacity));
+}
+
+.text-primary4 {
+  --tw-text-opacity: 1;
+  color: rgb(191 210 248 / var(--tw-text-opacity));
 }
 
 .shadow-2xl {

@@ -28,6 +28,25 @@ export const getProductById = createAsyncThunk(
     return response.data;
   }
 );
+export const updateProductById = createAsyncThunk(
+  "products/updateProductById",
+  async ({ productId, updatedData }) => {
+    const response = await axios.put(
+      `http://localhost:5077/api/products/${productId}`,
+      updatedData
+    );
+    return response.data;
+  }
+);
+export const deletedProductById = createAsyncThunk(
+  "products/getProductById",
+  async (productId) => {
+    const response = await axios.delete(
+      `http://localhost:5077/api/products/${productId}`
+    );
+    return response.data;
+  }
+);
 
 const productsSlice = createSlice({
   name: "products",
@@ -86,6 +105,9 @@ const productsSlice = createSlice({
         state.items.push(action.payload);
       })
       .addCase(getProductById.fulfilled, (state, action) => {
+        state.previewItem = action.payload;
+      })
+      .addCase(updateProductById.fulfilled, (state, action) => {
         state.previewItem = action.payload;
       });
   },
