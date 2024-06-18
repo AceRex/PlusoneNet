@@ -6,10 +6,21 @@ export const login = createAsyncThunk("user/Login", async (loginDetails) => {
     "http://localhost:5077/api/auth/login",
     loginDetails
   );
-  document.cookie = ` user=; ${response.data} `;
 
   return response.data;
 });
+
+export const register = createAsyncThunk(
+  "user/Register",
+  async (registerDetails) => {
+    const response = await axios.post(
+      "http://localhost:5077/api/auth/register",
+      registerDetails
+    );
+
+    return response.data;
+  }
+);
 
 const UserSlice = createSlice({
   name: "user",
@@ -29,6 +40,17 @@ const UserSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(register.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload;
+      })
+      .addCase(register.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       });

@@ -13,6 +13,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [showErr, setShowErr] = useState(false);
+  const user = useSelector((state) => state.user.user);
   const loginStatus = useSelector((state) => state.user.status);
   const error = useSelector((state) => state.user.error);
 
@@ -27,6 +28,7 @@ function Login() {
       await dispatch(login(loginDetails));
       if (loginStatus === "succeeded") {
         navigate("/");
+        localStorage.setItem("user", JSON.stringify(user));
       }
     } catch (error) {
       console.error("Login failed:", error.message);

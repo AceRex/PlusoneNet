@@ -6,7 +6,7 @@ import { HiOutlineLogout } from "react-icons/hi";
 
 function Header() {
   let navigate = useNavigate();
-  const user = useSelector((state) => state.user.user);
+  const user = localStorage.getItem('user');
 const handleLogout = ()=> {} 
 const login = () => {
     navigate("/login");
@@ -22,7 +22,7 @@ const login = () => {
             Ecommerce
           </p>
         </div>
-        {Object.keys(user).length === 0 ? (
+        {user === null ? (
           <div className="w-1/2 flex place-content-end">
             <div className="w-1/2 flex flex-row items-end gap-4">
               <Button
