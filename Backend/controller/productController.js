@@ -26,9 +26,12 @@ const createProduct = asyncHandler(async (req, res) => {
   }
 });
 const getProductById = asyncHandler(async (req, res) => {
-  const product = products.find((p) => p.id === parseInt(req.params.id));
-  if (!product) return res.status(404).send("Product not found");
-  res.json(product);
+  const product = await Product.findById(req.params.id);
+  if (product) {
+    res.status(200).json(product);
+  } else {
+    res.status(404).send("Product not found");
+  }
 });
 const updateProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
@@ -47,9 +50,15 @@ const updateProductById = asyncHandler(async (req, res) => {
   res.json(updatedProduct);
 });
 const deleteProductById = asyncHandler(async (req, res) => {
-    const product = await Product.findByIdAndDelete(req.params.id);
-    if (!product) return res.status(404).json({ message: 'Product not found' });
+  const product = await Product.findByIdAndDelete(req.params.id);
+  if (!product) return res.status(404).json({ message: "Product not found" });
 
-    res.status(204).send();
-  });
-export { allProduct, createProduct, getProductById, updateProductById, deleteProductById };
+  res.status(204).send();
+});
+export {
+  allProduct,
+  createProduct,
+  getProductById,
+  updateProductById,
+  deleteProductById,
+};
