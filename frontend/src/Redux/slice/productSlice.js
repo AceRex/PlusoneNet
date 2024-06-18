@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+export const baseurl = "https://plusoneprojectbackend-fx4elf5ur-acerexs-projects.vercel.app/"
+
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
-    const response = await axios.get("http://localhost:5077/api/products");
+    const response = await axios.get(`${baseurl}`);
     return response.data;
   }
 );
@@ -13,7 +15,7 @@ export const createProduct = createAsyncThunk(
   "products/createProduct",
   async (productData) => {
     const response = await axios.post(
-      "http://localhost:5077/api/products/create",
+      `${baseurl}api/products/create`,
       productData
     );
     return response.data;
@@ -23,7 +25,7 @@ export const getProductById = createAsyncThunk(
   "products/getProductById",
   async (productId) => {
     const response = await axios.get(
-      `http://localhost:5077/api/products/${productId}`
+      `${baseurl}api/products/${productId}`
     );
     return response.data;
   }
@@ -32,7 +34,7 @@ export const updateProductById = createAsyncThunk(
   "products/updateProductById",
   async ({ productId, updatedData }) => {
     const response = await axios.put(
-      `http://localhost:5077/api/products/${productId}`,
+      `${baseurl}api/products/${productId}`,
       updatedData
     );
     return response.data;
@@ -42,7 +44,7 @@ export const deletedProductById = createAsyncThunk(
   "products/getProductById",
   async (productId) => {
     const response = await axios.delete(
-      `http://localhost:5077/api/products/${productId}`
+      `${baseurl}api/products/${productId}`
     );
     return response.data;
   }

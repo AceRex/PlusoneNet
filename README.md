@@ -10,5 +10,8 @@ Database - MongoDB [MongoDB](https://www.google.com/url?sa=i&url=https%3A%2F%2Fc
 
 Redux Toolkit - for state management and api consumption
 
+Backend is delpoyed on vercel 
+
+
 general page route ("/")
 admin portal route ("/admin-portal")
