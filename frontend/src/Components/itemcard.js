@@ -1,5 +1,7 @@
+import { useDispatch } from "react-redux";
 import Button from "./button";
 import { FaCartPlus } from "react-icons/fa";
+import { ProductAction } from "../Redux/slice/productSlice";
 
 function formatToNaira(amount) {
   return `₦${amount?.toLocaleString(undefined, {
@@ -8,7 +10,14 @@ function formatToNaira(amount) {
   })}`;
 }
 
-function Itemcard({ image, title, category, amount, description }) {
+function Itemcard({ id, image, title, category, amount, description }) {
+  const dispatch = useDispatch();
+
+  const addToCart = () => {
+    dispatch(
+      ProductAction.addToCart({ id, image, title, category, amount, description })
+    );
+  };
   const price = formatToNaira(amount);
   return (
     <div className="bg-white p-4 rounded-lg overflow-hidden">
@@ -29,7 +38,12 @@ function Itemcard({ image, title, category, amount, description }) {
         <p className="text-xl w-[90%] tracking-tight font-bold text-dark -mb-1 capitalize truncate">
           {price}
         </p>
-        <Button type={"fill"} icon={<FaCartPlus />} variant={"blue"} />
+        <Button
+          type={"fill"}
+          icon={<FaCartPlus />}
+          variant={"blue"}
+          onClick={addToCart}
+        />
       </div>
     </div>
   );

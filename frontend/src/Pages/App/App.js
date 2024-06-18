@@ -1,7 +1,7 @@
 import Header from "../../Components/header";
 import Row from "../../Components/row";
 import Itemcard from "../../Components/itemcard";
-import Loading from "../Loading/Loading.js"
+import Loading from "../Loading/Loading.js";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchProducts } from "../../Redux/slice/productSlice.js";
@@ -11,7 +11,6 @@ function Main() {
   const products = useSelector((state) => state.products.items);
   const productStatus = useSelector((state) => state.products.status);
   const error = useSelector((state) => state.products.error);
-
 
   useEffect(() => {
     if (productStatus === "idle") {
@@ -26,6 +25,7 @@ function Main() {
         <Row>
           {products.map((product) => (
             <Itemcard
+              id={product._id}
               title={product.title}
               category={product.category}
               image={product.image}

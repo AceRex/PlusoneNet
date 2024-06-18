@@ -23,7 +23,7 @@ function Button({ text, type, className, variant, icon, onClick }) {
     >
       {icon ? (
         <span className="flex items-center justify-center gap-2 text-2xl">
-          {icon}
+          {icon} {text}
         </span>
       ) : (
         text

@@ -36,6 +36,7 @@ const productsSlice = createSlice({
     status: "idle",
     error: null,
     previewItem: null,
+    cart: [],
   },
   reducers: {
     setPreviewItem(state, action) {
@@ -43,6 +44,29 @@ const productsSlice = createSlice({
     },
     clearPreviewItem(state) {
       state.previewItem = null;
+    },
+    addToCart(state, action) {
+      const existingItem = state.cart.find(
+        (item) => item.id === action.payload.id
+      );
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        state.cart.push({ ...action.payload, quantity: 1 });
+      }
+    },
+    removeFromCart(state, action) {
+      state.cart = state.cart.filter((item) => item.id !== action.payload.id);
+    },
+    updateCartQuantity(state, action) {
+      const { id, quantity } = action.payload;
+      const item = state.cart.find((item) => item.id === id);
+      if (item) {
+        item.quantity = quantity;
+      }
+    },
+    clearCart(state) {
+      state.cart = [];
     },
   },
   extraReducers: (builder) => {

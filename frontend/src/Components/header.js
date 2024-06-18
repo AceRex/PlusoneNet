@@ -6,9 +6,12 @@ import { HiOutlineLogout } from "react-icons/hi";
 
 function Header() {
   let navigate = useNavigate();
-  const user = localStorage.getItem('user');
-const handleLogout = ()=> {} 
-const login = () => {
+
+  const cart = useSelector((state) => state.products.cart);
+  console.log(cart.length);
+  const user = localStorage.getItem("user");
+  const handleLogout = () => {};
+  const login = () => {
     navigate("/login");
   };
   const register = () => {
@@ -41,8 +44,17 @@ const login = () => {
           </div>
         ) : (
           <div className="w-1/2 flex gap-2 place-content-end">
-            <Button icon={<FaShoppingCart />} type={"fill"} variant={"white"}/>
-            <Button icon={<HiOutlineLogout />} type={"outline"} onClick={handleLogout}/>
+            <Button
+              text={cart.length}
+              icon={<FaShoppingCart />}
+              type={"fill"}
+              variant={"white"}
+            />
+            <Button
+              icon={<HiOutlineLogout />}
+              type={"outline"}
+              onClick={handleLogout}
+            />
           </div>
         )}
       </div>
