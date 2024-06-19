@@ -2,6 +2,8 @@ import Button from "../../Components/button";
 import { useDispatch, useSelector } from "react-redux";
 import { OthersAction } from "../../Redux/slice/otherSlice";
 import { useNavigate } from "react-router";
+import { HiOutlineLogout } from "react-icons/hi";
+import { logout } from "../../Redux/slice/userSlice";
 
 function Header() {
   let dispatch = useDispatch();
@@ -17,6 +19,9 @@ function Header() {
   };
   const register = () => {
     navigate("/register");
+  };
+  const logoutUser = () => {
+    dispatch(logout());
   };
 
   const handleCreateProduct = () => {
@@ -60,6 +65,12 @@ function Header() {
                 type={"fill"}
                 text="Maintain Order"
                 onClick={handleManageOrder}
+              />
+              <Button
+                icon={<HiOutlineLogout />}
+                type="outline"
+                variant="white"
+                onClick={logoutUser}
               />
             </>
           )}

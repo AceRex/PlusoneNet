@@ -2,10 +2,16 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { baseurl } from "./productSlice";
-import { useNavigate } from "react-router-dom";
 
 export const login = createAsyncThunk("user/Login", async (loginDetails) => {
   const response = await axios.post(`${baseurl}api/auth/login`, loginDetails, {
+    withCredentials: true,
+  });
+
+  return response.data;
+});
+export const logout = createAsyncThunk("user/Logout", async () => {
+  const response = await axios.post(`${baseurl}api/auth/logout`, {
     withCredentials: true,
   });
 
@@ -93,7 +99,20 @@ const UserSlice = createSlice({
           draggable: true,
           progress: undefined,
         });
-      });
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload;
+        toast.success("Logout successful!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
   },
 });
 
