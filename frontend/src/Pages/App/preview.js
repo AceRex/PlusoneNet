@@ -5,13 +5,11 @@ import Button from "../../Components/button";
 import { useDispatch, useSelector } from "react-redux";
 import { ProductAction, getProductById } from "../../Redux/slice/productSlice";
 import Loading from "../Loading/Loading";
-import Header from "../../Components/header";
 
 const Preview = () => {
   const dispatch = useDispatch();
   const { productId } = useParams();
   const { product, status, error } = useSelector((state) => state.products);
-  console.log(product);
   useEffect(() => {
     if (productId) {
       dispatch(getProductById(productId));
@@ -21,6 +19,7 @@ const Preview = () => {
   if (status === "loading") {
     return <Loading />;
   }
+
 
   if (status === "failed") {
     return <div>Error: {error}</div>;
@@ -38,8 +37,6 @@ const Preview = () => {
     );
   };
   return (
-    <>
-      <Header />
       <div className="p-12">
         <div className=" p-8 bg-white rounded-lg flex gap-4">
           <div className="w-1/2">
@@ -77,7 +74,6 @@ const Preview = () => {
           </div>
         </div>
       </div>
-    </>
   );
 };
 

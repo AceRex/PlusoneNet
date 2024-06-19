@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const baseurl = "https://plusoneprojectbackend.vercel.app/";
 
@@ -78,6 +80,15 @@ const productsSlice = createSlice({
         existingItem.quantity++;
       } else {
         state.cart.push({ ...action.payload, quantity: 1 });
+        toast.success("Item added to cart!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     },
     removeFromCart: (state, action) => {
@@ -87,6 +98,15 @@ const productsSlice = createSlice({
 
       if (existingItem.quantity >= 1) {
         state.cart = state.cart.filter((item) => item.id !== action.payload.id);
+        toast.info("Item removed from cart.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     },
     decCartItem(state, action) {
@@ -120,6 +140,15 @@ const productsSlice = createSlice({
     },
     clearCart(state) {
       state.cart = [];
+      toast.warn("Cart cleared.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     },
   },
   extraReducers: (builder) => {
@@ -130,13 +159,32 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.items = action.payload;
+      
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+        toast.error("Failed to fetch products.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       })
       .addCase(createProduct.fulfilled, (state, action) => {
         state.items.push(action.payload);
+        toast.success("Product created successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       })
       .addCase(getProductById.pending, (state) => {
         state.status = "loading";
@@ -148,9 +196,27 @@ const productsSlice = createSlice({
       .addCase(getProductById.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+        toast.error("Failed to fetch product details.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       })
       .addCase(updateProductById.fulfilled, (state, action) => {
         state.previewItem = action.payload;
+        toast.success("Product updated successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       });
   },
 });

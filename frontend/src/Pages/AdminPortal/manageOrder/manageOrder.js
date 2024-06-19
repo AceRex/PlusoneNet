@@ -38,7 +38,7 @@ const ManageOrder = () => {
 
   return (
     <div className="w-[100vw] h-[100vh] fixed top-0 bg-dark/30 backdrop-blur-lg z-50 p-24">
-      <div className="bg-white p-12 rounded-lg relative">
+      <div className="bg-white p-12  rounded-lg relative">
         <Button
           type={"outline"}
           icon={<AiOutlineClose size={20} />}
@@ -49,6 +49,7 @@ const ManageOrder = () => {
         <h1 className="text-3xl font-bold text-primary1 tracking-tighter">
           Manage Order{" "}
         </h1>
+        <div className="h-[25rem] overflow-scroll">
         <Row>
           {orders.map(
             (order, index) => (
@@ -63,6 +64,7 @@ const ManageOrder = () => {
             )
           )}
         </Row>
+        </div>
       </div>
     </div>
   );

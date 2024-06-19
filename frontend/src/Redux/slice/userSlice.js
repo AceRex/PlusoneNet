@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { baseurl } from "./productSlice";
+import { useNavigate } from "react-router-dom";
 
 export const login = createAsyncThunk("user/Login", async (loginDetails) => {
   const response = await axios.post(`${baseurl}api/auth/login`, loginDetails, {
@@ -39,10 +41,29 @@ const UserSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.user = action.payload;
+        toast.success("Login successful!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        localStorage.setItem("user", JSON.stringify(state.user));
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+        toast.error(`Login failed: ${state.error}`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       })
       .addCase(register.pending, (state) => {
         state.status = "loading";
@@ -50,10 +71,28 @@ const UserSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.user = action.payload;
+        toast.success("Registration successful!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       })
       .addCase(register.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+        toast.error(`Registration failed: ${state.error}`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       });
   },
 });

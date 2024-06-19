@@ -734,6 +734,42 @@ video {
   height: 500px;
 }
 
+.h-\[98\%\] {
+  height: 98%;
+}
+
+.h-\[30\%\] {
+  height: 30%;
+}
+
+.h-\[10\%\] {
+  height: 10%;
+}
+
+.h-\[r5em\%\] {
+  height: r5em%;
+}
+
+.h-\[5rem\%\] {
+  height: 5rem%;
+}
+
+.h-\[5rem\] {
+  height: 5rem;
+}
+
+.h-\[10rem\] {
+  height: 10rem;
+}
+
+.h-\[20rem\] {
+  height: 20rem;
+}
+
+.h-\[25rem\] {
+  height: 25rem;
+}
+
 .w-1\/2 {
   width: 50%;
 }

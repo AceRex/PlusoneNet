@@ -27,8 +27,11 @@ function Login() {
 
       await dispatch(login(loginDetails));
       if (loginStatus === "succeeded") {
-        navigate("/admin-portal");
+        setTimeout(() => navigate("/admin-portal"), 2000);
         localStorage.setItem("user", JSON.stringify(user));
+      }
+      if (loginStatus === "failed") {
+        navigate("/login");
       }
     } catch (error) {
       console.error("Login failed:", error.message);

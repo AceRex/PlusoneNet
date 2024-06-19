@@ -36,7 +36,7 @@ function Itemcard({
   };
   const price = formatToNaira(amount);
   return (
-    <Link to={`/preview/${id}`}>
+    <Link to={`/${id}`}>
       <div className="bg-white p-4 rounded-lg overflow-hidden">
         <div className="h-[200px] w-full mb-4 flex items-center justify-center">
           <img
