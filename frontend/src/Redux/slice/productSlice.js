@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// export const baseurl = "https://plusoneprojectbackend-g18s08ey3-acerexs-projects.vercel.app/";
+// export const baseurl =
+  // "https://plusoneprojectbackend-3ryhrw5lm-acerexs-projects.vercel.app/";
 export const baseurl = "http://localhost:5077/";
 
 export const fetchProducts = createAsyncThunk(
@@ -91,17 +92,23 @@ const productsSlice = createSlice({
       }
     },
     decCartItem(state, action) {
-      const existingItem = state.cart.find((item) => item.id === action.payload.id);
+      const existingItem = state.cart.find(
+        (item) => item.id === action.payload.id
+      );
       if (existingItem) {
         if (existingItem.quantity === 1) {
-          state.cart = state.cart.filter((item) => item.id !== action.payload.id);
+          state.cart = state.cart.filter(
+            (item) => item.id !== action.payload.id
+          );
         } else {
           existingItem.quantity--;
         }
       }
     },
     incCartItem(state, action) {
-      const existingItem = state.cart.find((item) => item.id === action.payload.id);
+      const existingItem = state.cart.find(
+        (item) => item.id === action.payload.id
+      );
       if (existingItem) {
         existingItem.quantity++;
       }

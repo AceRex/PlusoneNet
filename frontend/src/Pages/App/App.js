@@ -7,13 +7,17 @@ import { useEffect, useMemo, useState } from "react";
 import { fetchProducts } from "../../Redux/slice/productSlice.js";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import CartModal from "../Cart/cart.js";
+import Order from "../Order/order.js";
 
 function Main() {
   const dispatch = useDispatch();
+
   const products = useSelector((state) => state.products.items);
   const productStatus = useSelector((state) => state.products.status);
   const error = useSelector((state) => state.products.error);
   const cartModal = useSelector((state) => state.others.cartModal);
+  const orderModal = useSelector((state) => state.others.orderModal);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -75,6 +79,7 @@ function Main() {
       )}
       {productStatus === "failed" && <div>{error}</div>}
       {cartModal && <CartModal />}
+      {orderModal && <Order />}
     </>
   );
 }

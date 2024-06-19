@@ -13,6 +13,12 @@ import {
   updateProductById,
   deleteProductById,
 } from "../controller/productController.js";
+import {
+  allOrder,
+  createOrder,
+  deleteOrderById,
+  getOrderById,
+} from "../controller/orderController.js";
 
 router.get("/products", allProduct);
 router.post("/products/create", createProduct);
@@ -21,6 +27,8 @@ router
   .get(getProductById)
   .put(updateProductById)
   .delete(deleteProductById);
+router.route("/order").get(allOrder).post(createOrder);
+router.route("/order/:id").get(getOrderById).delete(deleteOrderById);
 router.post("/auth/login", authUser);
 router.get("/auth/logout", logoutUser);
 router.post("/auth/register", registerUser);

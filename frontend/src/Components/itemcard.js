@@ -3,19 +3,34 @@ import Button from "./button";
 import { FaCartPlus } from "react-icons/fa";
 import { ProductAction } from "../Redux/slice/productSlice";
 
-function formatToNaira(amount) {
+export function formatToNaira(amount) {
   return `₦${amount?.toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })}`;
 }
 
-function Itemcard({ id, image, title, category, amount, description }) {
+function Itemcard({
+  id,
+  image,
+  title,
+  category,
+  amount,
+  description,
+  quantity,
+}) {
   const dispatch = useDispatch();
 
   const addToCart = () => {
     dispatch(
-      ProductAction.addToCart({ id, image, title, category, amount, description })
+      ProductAction.addToCart({
+        id,
+        image,
+        title,
+        category,
+        amount,
+        description,
+      })
     );
   };
   const price = formatToNaira(amount);

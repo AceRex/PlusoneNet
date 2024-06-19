@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router";
 import Button from "./button";
 import { useDispatch, useSelector } from "react-redux";
 import { FaShoppingCart } from "react-icons/fa";
@@ -6,20 +5,14 @@ import { HiOutlineLogout } from "react-icons/hi";
 import { OthersAction } from "../Redux/slice/otherSlice";
 
 function Header() {
-  let navigate = useNavigate();
   const dispatch = useDispatch();
 
   const cart = useSelector((state) => state.products.cart);
   const cartModal = useSelector((state) => state.others.cartModal);
 
-  const user = localStorage.getItem("user");
+ 
   const handleLogout = () => {};
-  const login = () => {
-    navigate("/login");
-  };
-  const register = () => {
-    navigate("/register");
-  };
+  
   const openCart = () => {
     dispatch(OthersAction.setCartModal(!cartModal));
   };
@@ -31,24 +24,6 @@ function Header() {
             Ecommerce
           </p>
         </div>
-        {user === null ? (
-          <div className="w-1/2 flex place-content-end">
-            <div className="w-1/2 flex flex-row items-end gap-4">
-              <Button
-                text={"Log in"}
-                type="outline"
-                variant="white"
-                onClick={login}
-              />
-              <Button
-                text={"Sign up"}
-                type="fill"
-                variant="white"
-                onClick={register}
-              />
-            </div>
-          </div>
-        ) : (
           <div className="w-1/2 flex gap-2 place-content-end">
             <Button
               text={cart.length}
@@ -63,7 +38,6 @@ function Header() {
               onClick={handleLogout}
             />
           </div>
-        )}
       </div>
     </header>
   );

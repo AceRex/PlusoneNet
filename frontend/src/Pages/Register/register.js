@@ -27,7 +27,7 @@ function Register() {
 
       await dispatch(register(registerDetails));
       if (registerStatus === "succeeded") {
-        navigate("/");
+        navigate("/admin-portal");
         localStorage.setItem("user", JSON.stringify(user));
       }
     } catch (error) {

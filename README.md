@@ -15,3 +15,20 @@ Backend is delpoyed on vercel
 
 general page route ("/")
 admin portal route ("/admin-portal")
+
+
+User authentication:
+  •sign-up   ✅
+  •login     ✅
+  •logout    ✅
+Product listing with pagination ✅
+Product details page            ✅
+Shopping cart functionality     ✅
+Checkout process                ✅
+
+Backend APIs 
+    •product management ✅
+    •user management    ✅ 
+    •order processing   ✅
+
+Basic admin panel for managing products and orders ✅

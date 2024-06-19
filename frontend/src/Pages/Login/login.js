@@ -27,7 +27,7 @@ function Login() {
 
       await dispatch(login(loginDetails));
       if (loginStatus === "succeeded") {
-        navigate("/");
+        navigate("/admin-portal");
         localStorage.setItem("user", JSON.stringify(user));
       }
     } catch (error) {
