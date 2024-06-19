@@ -10,8 +10,12 @@ Database - MongoDB [MongoDB](https://www.google.com/url?sa=i&url=https%3A%2F%2Fc
 
 Redux Toolkit - for state management and api consumption
 
-Backend is delpoyed on vercel 
+Frontend Deployed [Frontend on Vercel](https://assessment-zeta-seven.vercel.app/)
 
+Backend Deployed [Backend on Vercel](https://plusoneprojectbackend.vercel.app/)
+
+to pull github repository [Johnson Are](https://github.com/AceRex/PlusoneNet)
+  then cd into frontend | backend and run npm i 
 
 general page route ("/")
 admin portal route ("/admin-portal")
