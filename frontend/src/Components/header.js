@@ -1,14 +1,17 @@
 import { useNavigate } from "react-router";
 import Button from "./button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaShoppingCart } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
+import { OthersAction } from "../Redux/slice/otherSlice";
 
 function Header() {
   let navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const cart = useSelector((state) => state.products.cart);
-  console.log(cart.length);
+  const cartModal = useSelector((state) => state.others.cartModal);
+
   const user = localStorage.getItem("user");
   const handleLogout = () => {};
   const login = () => {
@@ -16,6 +19,9 @@ function Header() {
   };
   const register = () => {
     navigate("/register");
+  };
+  const openCart = () => {
+    dispatch(OthersAction.setCartModal(!cartModal));
   };
   return (
     <header className="relative z-50 h-[10vh] flex place-content-center">
@@ -49,6 +55,7 @@ function Header() {
               icon={<FaShoppingCart />}
               type={"fill"}
               variant={"white"}
+              onClick={openCart}
             />
             <Button
               icon={<HiOutlineLogout />}

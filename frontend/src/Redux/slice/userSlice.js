@@ -3,10 +3,9 @@ import axios from "axios";
 import { baseurl } from "./productSlice";
 
 export const login = createAsyncThunk("user/Login", async (loginDetails) => {
-  const response = await axios.post(
-    `${baseurl}api/auth/login`,
-    loginDetails
-  );
+  const response = await axios.post(`${baseurl}api/auth/login`, loginDetails, {
+    withCredentials: true,
+  });
 
   return response.data;
 });
@@ -16,7 +15,8 @@ export const register = createAsyncThunk(
   async (registerDetails) => {
     const response = await axios.post(
       `${baseurl}api/auth/register`,
-      registerDetails
+      registerDetails,
+      { withCredentials: true }
     );
 
     return response.data;

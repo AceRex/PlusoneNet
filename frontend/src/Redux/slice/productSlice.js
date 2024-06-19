@@ -1,12 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const baseurl = "https://plusoneprojectbackend-fx4elf5ur-acerexs-projects.vercel.app/"
+// export const baseurl = "https://plusoneprojectbackend-g18s08ey3-acerexs-projects.vercel.app/";
+export const baseurl = "http://localhost:5077/";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
-    const response = await axios.get(`${baseurl}`);
+    const response = await axios.get(`${baseurl}api/products`, {
+      withCredentials: true,
+    });
     return response.data;
   }
 );
@@ -16,7 +19,8 @@ export const createProduct = createAsyncThunk(
   async (productData) => {
     const response = await axios.post(
       `${baseurl}api/products/create`,
-      productData
+      productData,
+      { withCredentials: true }
     );
     return response.data;
   }
@@ -24,9 +28,9 @@ export const createProduct = createAsyncThunk(
 export const getProductById = createAsyncThunk(
   "products/getProductById",
   async (productId) => {
-    const response = await axios.get(
-      `${baseurl}api/products/${productId}`
-    );
+    const response = await axios.get(`${baseurl}api/products/${productId}`, {
+      withCredentials: true,
+    });
     return response.data;
   }
 );
@@ -35,7 +39,8 @@ export const updateProductById = createAsyncThunk(
   async ({ productId, updatedData }) => {
     const response = await axios.put(
       `${baseurl}api/products/${productId}`,
-      updatedData
+      updatedData,
+      { withCredentials: true }
     );
     return response.data;
   }
@@ -43,9 +48,9 @@ export const updateProductById = createAsyncThunk(
 export const deletedProductById = createAsyncThunk(
   "products/getProductById",
   async (productId) => {
-    const response = await axios.delete(
-      `${baseurl}api/products/${productId}`
-    );
+    const response = await axios.delete(`${baseurl}api/products/${productId}`, {
+      withCredentials: true,
+    });
     return response.data;
   }
 );
@@ -76,8 +81,30 @@ const productsSlice = createSlice({
         state.cart.push({ ...action.payload, quantity: 1 });
       }
     },
-    removeFromCart(state, action) {
-      state.cart = state.cart.filter((item) => item.id !== action.payload.id);
+    removeFromCart: (state, action) => {
+      const existingItem = state.cart.find(
+        (item) => item.id === action.payload.id
+      );
+
+      if (existingItem.quantity >= 1) {
+        state.cart = state.cart.filter((item) => item.id !== action.payload.id);
+      }
+    },
+    decCartItem(state, action) {
+      const existingItem = state.cart.find((item) => item.id === action.payload.id);
+      if (existingItem) {
+        if (existingItem.quantity === 1) {
+          state.cart = state.cart.filter((item) => item.id !== action.payload.id);
+        } else {
+          existingItem.quantity--;
+        }
+      }
+    },
+    incCartItem(state, action) {
+      const existingItem = state.cart.find((item) => item.id === action.payload.id);
+      if (existingItem) {
+        existingItem.quantity++;
+      }
     },
     updateCartQuantity(state, action) {
       const { id, quantity } = action.payload;

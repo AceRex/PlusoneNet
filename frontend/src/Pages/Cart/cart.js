@@ -1,0 +1,62 @@
+import { AiOutlineClose } from "react-icons/ai";
+import Button from "../../Components/button";
+import CartCard from "./cartCard";
+import { useDispatch, useSelector } from "react-redux";
+import { OthersAction } from "../../Redux/slice/otherSlice";
+
+function CartModal() {
+  const dispatch = useDispatch();
+
+  const cart = useSelector((state) => state.products.cart);
+  const cartModal = useSelector((state) => state.others.cartModal);
+
+  const handleClosePreview = () => {
+    dispatch(OthersAction.setCartModal(!cartModal));
+  };
+  return (
+    <div className="w-[100vw] h-[100vh] bg-dark/20 backdrop-blur-lg fixed top-0 right-0 flex place-content-center p-24 z-50">
+      <div className="bg-white rounded-lg w-[50%] p-8  relative ">
+        <Button
+          type={"outline"}
+          icon={<AiOutlineClose size={20} />}
+          variant={"blue"}
+          className="absolute w-[3%] p-2 right-3 top-3"
+          onClick={() => handleClosePreview()}
+        />
+        <div className="h-[90%] overflow-scroll">
+          {cart.length === 0 && (
+            <div className="flex place-content-center items-center text-2xl font-bold text-dark/20 w-[100%] h-[100%]">
+              Cart is empty
+            </div>
+          )}
+          {cart.length !== 0 &&
+            cart?.map(
+              ({
+                amount,
+                category,
+                description,
+                id,
+                image,
+                quantity,
+                title,
+              }) => (
+                <CartCard
+                  amount={amount}
+                  category={category}
+                  description={description}
+                  id={id}
+                  image={image}
+                  quantity={quantity}
+                  title={title}
+                />
+              )
+            )}
+        </div>
+        <div className={`w-[70%] m-auto ${cart.length === 0 && "hidden"}`}>
+          <Button type={"fill"} text={"Place order"} variant={"blue"} />
+        </div>
+      </div>
+    </div>
+  );
+}
+export default CartModal;

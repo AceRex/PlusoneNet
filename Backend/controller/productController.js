@@ -3,11 +3,11 @@ import Product from "../models/productModel.js";
 
 const products = [];
 
-const allProduct = asyncHandler(async (req, res) => {
+const allProduct = asyncHandler(async (req, res, next) => {
   const products = await Product.find();
   res.json(products);
 });
-const createProduct = asyncHandler(async (req, res) => {
+const createProduct = asyncHandler(async (req, res, next) => {
   const { title, amount, description, category, image } = req.body;
 
   const newProduct = new Product({
@@ -25,7 +25,7 @@ const createProduct = asyncHandler(async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
-const getProductById = asyncHandler(async (req, res) => {
+const getProductById = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     res.status(200).json(product);
@@ -33,7 +33,7 @@ const getProductById = asyncHandler(async (req, res) => {
     res.status(404).send("Product not found");
   }
 });
-const updateProductById = asyncHandler(async (req, res) => {
+const updateProductById = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   if (!product) return res.status(404).json({ message: "Product not found" });
 
@@ -49,7 +49,7 @@ const updateProductById = asyncHandler(async (req, res) => {
   const updatedProduct = await product.save();
   res.json(updatedProduct);
 });
-const deleteProductById = asyncHandler(async (req, res) => {
+const deleteProductById = asyncHandler(async (req, res, next) => {
   const product = await Product.findByIdAndDelete(req.params.id);
   if (!product) return res.status(404).json({ message: "Product not found" });
 
