@@ -1,9 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// export const baseurl =
-// "https://plusoneprojectbackend-3ryhrw5lm-acerexs-projects.vercel.app/";
-export const baseurl = "http://localhost:5077/";
+export const baseurl = "https://plusoneprojectbackend.vercel.app/";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
