@@ -12,6 +12,7 @@ import Loading from "../Loading/Loading";
 import CreateProduct from "./createProduct";
 import { OthersAction } from "../../Redux/slice/otherSlice";
 import EditProduct from "./EditItem";
+import ManageOrder from "./manageOrder/manageOrder";
 
 function AdminPortal() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function AdminPortal() {
   const createProductModal = useSelector(
     (state) => state.others.createProductModal
   );
+  const manageOrder = useSelector((state) => state.others.manageOrder);
 
   const handlePreview = (id) => {
     dispatch(OthersAction.setOpenAdminPreview(!openAdminPreview));
@@ -78,6 +80,7 @@ function AdminPortal() {
       {openAdminPreview && <Preview id={id} />}
       {editProductModal && <EditProduct id={id} />}
       {createProductModal && <CreateProduct />}
+      {manageOrder && <ManageOrder />}
     </div>
   );
 }

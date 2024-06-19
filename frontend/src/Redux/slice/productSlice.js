@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // export const baseurl =
-  // "https://plusoneprojectbackend-3ryhrw5lm-acerexs-projects.vercel.app/";
+// "https://plusoneprojectbackend-3ryhrw5lm-acerexs-projects.vercel.app/";
 export const baseurl = "http://localhost:5077/";
 
 export const fetchProducts = createAsyncThunk(
@@ -140,8 +140,16 @@ const productsSlice = createSlice({
       .addCase(createProduct.fulfilled, (state, action) => {
         state.items.push(action.payload);
       })
+      .addCase(getProductById.pending, (state) => {
+        state.status = "loading";
+      })
       .addCase(getProductById.fulfilled, (state, action) => {
-        state.previewItem = action.payload;
+        state.status = "succeeded";
+        state.product = action.payload;
+      })
+      .addCase(getProductById.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
       })
       .addCase(updateProductById.fulfilled, (state, action) => {
         state.previewItem = action.payload;

@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import { formatToNaira } from "../../Components/itemcard";
 import Button from "../../Components/button";
 import { createOrder } from "../../Redux/slice/OrderSlice";
+import { OthersAction } from "../../Redux/slice/otherSlice";
+import { ProductAction } from "../../Redux/slice/productSlice";
 
 function Order() {
   const dispatch = useDispatch();
@@ -14,6 +16,7 @@ function Order() {
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
   const [phone, setPhone] = useState();
+  const orderModal = useSelector((state) => state.others.orderModal);
 
   const totalAmount = useMemo(() => {
     return cart.reduce((total, item) => total + item.amount * item.quantity, 0);
@@ -38,6 +41,8 @@ function Order() {
       };
 
       dispatch(createOrder(orderData));
+      dispatch(OthersAction.setOrderModal(!orderModal));
+      dispatch(ProductAction.clearCart());
 
       setName("");
       setAddress("");
@@ -54,11 +59,31 @@ function Order() {
         <h3 className="font-bold text-3xl text-primary1">Place order</h3>
         <div className="flex gap-4">
           <div className="w-1/2 p-8">
-            <Input type={"text"} placeholder={"Enter your name..."} onChange={(e) => setName(e.target.value)}/>
-            <Input type={"text"} placeholder={"Address"} onChange={(e) => setAddress(e.target.value)}/>
-            <Input type={"text"} placeholder={"State"} onChange={(e) => setState(e.target.value)}/>
-            <Input type={"text"} placeholder={"Country"} onChange={(e) => setCountry(e.target.value)}/>
-            <Input type={"number"} placeholder={"Phone number"} onChange={(e) => setPhone(e.target.value)}/>
+            <Input
+              type={"text"}
+              placeholder={"Enter your name..."}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <Input
+              type={"text"}
+              placeholder={"Address"}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <Input
+              type={"text"}
+              placeholder={"State"}
+              onChange={(e) => setState(e.target.value)}
+            />
+            <Input
+              type={"text"}
+              placeholder={"Country"}
+              onChange={(e) => setCountry(e.target.value)}
+            />
+            <Input
+              type={"number"}
+              placeholder={"Phone number"}
+              onChange={(e) => setPhone(e.target.value)}
+            />
           </div>
           <div className="p-12 w-1/2 ">
             <div className="bg-neutral rounded-lg p-4">

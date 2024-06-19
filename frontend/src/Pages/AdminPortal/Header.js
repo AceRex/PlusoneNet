@@ -10,6 +10,8 @@ function Header() {
   const createProductModal = useSelector(
     (state) => state.others.createProductModal
   );
+  const manageOrder = useSelector((state) => state.others.manageOrder);
+
   const login = () => {
     navigate("/login");
   };
@@ -19,6 +21,9 @@ function Header() {
 
   const handleCreateProduct = () => {
     dispatch(OthersAction.setCreateProductModal(!createProductModal));
+  };
+  const handleManageOrder = () => {
+    dispatch(OthersAction.setManageOrder(!manageOrder));
   };
   return (
     <header className="p-4 relative z-50 h-[10vh] flex place-content-center">
@@ -54,7 +59,7 @@ function Header() {
               <Button
                 type={"fill"}
                 text="Maintain Order"
-                onClick={handleCreateProduct}
+                onClick={handleManageOrder}
               />
             </>
           )}

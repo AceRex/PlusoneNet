@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React, { Suspense, useEffect, useState } from "react";
-import AdminPortal from "../Pages/AdminPortal";
 import Loading from "../Pages/Loading/Loading";
-import ProtectedRoute from "./protectedRoute";
 const Login = React.lazy(() => import("../Pages/Login/login"));
 const Register = React.lazy(() => import("../Pages/Register/register"));
 const Main = React.lazy(() => import("../Pages/App/App"));
+const AdminPortal = React.lazy(() => import("../Pages/AdminPortal"));
+const Preview = React.lazy(() => import("../Pages/App/preview"));
+const ProtectedRoute = React.lazy(() => import("./protectedRoute"));
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -22,7 +23,8 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Main />}/>
+          <Route path="/" element={<Main />} />
+          <Route path="/preview/:productId" element={<Preview />} />
           <Route
             path="/admin-portal"
             element={
