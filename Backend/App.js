@@ -4,6 +4,7 @@ import router from "./route/Routes.js";
 import connectDB from "./config/config.js";
 import { notFound, errorHandler } from "./middleware/middleware.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 connectDB();
@@ -16,12 +17,14 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: "*",
+    // origin: "https://assessment-zeta-seven.vercel.app",
+    origin: "http://localhost:3000",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+app.use(cookieParser());
 
 app.use("/api", router);
 

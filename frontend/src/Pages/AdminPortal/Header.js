@@ -1,18 +1,27 @@
+import React, { useEffect } from "react";
 import Button from "../../Components/button";
 import { useDispatch, useSelector } from "react-redux";
 import { OthersAction } from "../../Redux/slice/otherSlice";
 import { useNavigate } from "react-router";
 import { HiOutlineLogout } from "react-icons/hi";
 import { logout } from "../../Redux/slice/userSlice";
+import Cookies from "js-cookie";
 
 function Header() {
   let dispatch = useDispatch();
   let navigate = useNavigate();
-  const user = localStorage.getItem("user");
+  const user = JSON.parse(localStorage.getItem("user"));
   const createProductModal = useSelector(
     (state) => state.others.createProductModal
   );
   const manageOrder = useSelector((state) => state.others.manageOrder);
+
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
 
   const login = () => {
     navigate("/login");
@@ -22,6 +31,8 @@ function Header() {
   };
   const logoutUser = () => {
     dispatch(logout());
+    localStorage.clear();
+    navigate("/login");
   };
 
   const handleCreateProduct = () => {
@@ -30,6 +41,7 @@ function Header() {
   const handleManageOrder = () => {
     dispatch(OthersAction.setManageOrder(!manageOrder));
   };
+
   return (
     <header className="p-4 relative z-50 h-[10vh] flex place-content-center">
       <div className="bg-primary1 flex justify-between items-center fixed shadow-xl font-bold text-xl w-[50vw] m-auto rounded-lg p-4 text-white text-center">
@@ -79,4 +91,5 @@ function Header() {
     </header>
   );
 }
+
 export default Header;

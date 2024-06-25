@@ -65,6 +65,10 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 const logoutUser = asyncHandler(async (req, res) => {
+  res.cookie("Auth_token", '', {
+    httpOnly: true,
+    expires: new Date(0)
+  })
   res.status(200).json({ message: "Logout successful" });
 });
 

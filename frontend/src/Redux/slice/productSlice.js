@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
-export const baseurl = "https://plusoneprojectbackend.vercel.app/";
+// export const baseurl = "https://plusoneprojectbackend.vercel.app/";
+export const baseurl = "http://localhost:5077/";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
@@ -159,7 +160,6 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.items = action.payload;
-      
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = "failed";

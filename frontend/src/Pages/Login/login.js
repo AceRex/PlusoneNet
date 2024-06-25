@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../Components/input";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../Components/button";
@@ -19,6 +19,7 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setShowErr(false);
     try {
       const loginDetails = {
         email,
@@ -26,18 +27,19 @@ function Login() {
       };
 
       await dispatch(login(loginDetails));
-      if (loginStatus === "succeeded") {
-        setTimeout(() => navigate("/admin-portal"), 2000);
-        localStorage.setItem("user", JSON.stringify(user));
-      }
-      if (loginStatus === "failed") {
-        navigate("/login");
-      }
     } catch (error) {
       console.error("Login failed:", error.message);
     }
   };
 
+  useEffect(() => {
+    if (loginStatus === "succeeded") {
+      navigate("/admin-portal");
+    } else if (loginStatus === "failed") {
+      setErrMsg(error);
+      setShowErr(true);
+    }
+  }, [loginStatus, navigate, user, error]);
   return (
     <div className="flex w-[100vw] h-[100vh]">
       <div className="w-[35%] m-auto rounded-lg bg-white shadow-2xl shadow-dark/20 p-12">

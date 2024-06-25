@@ -3,6 +3,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { baseurl } from "./productSlice";
 
+
+
 export const login = createAsyncThunk("user/Login", async (loginDetails) => {
   const response = await axios.post(`${baseurl}api/auth/login`, loginDetails, {
     withCredentials: true,

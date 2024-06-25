@@ -28,7 +28,6 @@ function Register() {
       await dispatch(register(registerDetails));
       if (registerStatus === "succeeded") {
         navigate("/admin-portal");
-        localStorage.setItem("user", JSON.stringify(user));
       }
     } catch (error) {
       console.error("Login failed:", error.message);
