@@ -10,6 +10,8 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { FiUser } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { category } from "../Data";
+import { IoCloseOutline } from "react-icons/io5";
+
 import catImg from "../Assets/images/1s.png";
 import catImg1 from "../Assets/images/2s.png";
 import catImg2 from "../Assets/images/3s.png";
@@ -39,7 +41,7 @@ const CatImg = [
   { image: catImg11 },
 ];
 
-function Header() {
+function MobileHeader() {
   const dispatch = useDispatch();
 
   const [actImg, setActImg] = useState(0);
@@ -68,35 +70,58 @@ function Header() {
     setCatClick(!catClick);
   };
   return (
-    <header className="hidden z-50 h-[16vh] mb-3 bg-white lg:flex xl:flex flex-col place-content-center">
-      <div className="flex items-center h-[50%] w-[93%] m-auto">
-        <div className="w-[25%] p-4">
-          <Link to={"/"}>
-            <img src={Logo} alt="logo" className="w-[130px]" />
-          </Link>
-        </div>
-        <div className="w-[45%] p-2 ">
-          <div className="flex gap-2  ">
-            <input
-              type="search"
-              className="p-2 w-[80%] border  rounded-md border-dark/50 outline-none"
-            />
-            <button className="bg-primary1 w-[20%] text-sm rounded-md text-white flex items-center place-content-center gap-2">
-              <FaMagnifyingGlass size={10} />{" "}
-              <span className="font-semibold">Search</span>
-            </button>
+    <header className="flex h-[18.5vh] bg-red lg:hidden xl:hidden flex-col place-content-center">
+      <div className="fixed h-[16vh] bg-white top-0 z-50">
+        <div className="flex  items-center content-center place-content-center h-[60%] w-[100%]">
+          <div className="w-[20%] relative p-2">
+            <div className="w-[100%] m-auto mt-1 flex items-center">
+              <div
+                className={`flex gap-2 items-center cursor-pointer`}
+                onClick={handleCatClick}
+              >
+                {!catClick ? (
+                  <RxHamburgerMenu size={20} className="text-primary1" />
+                ) : (
+                  <IoCloseOutline size={25} className="text-primary1" />
+                )}
+              </div>
+            </div>
+            <div
+              className={`absolute flex flex-row z-50 ${
+                !catClick ? "right-[12rem]" : "-left-5"
+              } w-[100vw] transition-transform duration-500 ease-in-out top-11 bg-neutral`}
+            >
+              <div className="w-[40%] bg-white list-none h-[28rem] overflow-scroll">
+                {category.map(({ slug, name }) => (
+                  <li className="flex justify-between items-center tracking-tight hover:bg-neutral p-4 px-6 text-sm">
+                    <p>{name}</p> <GrNext />
+                  </li>
+                ))}
+              </div>
+              <div className="w-[60%] p-8">Main category</div>
+              {/* <div className="w-[30%] p-4">
+              <div className=" bg-white p-2 rounded-lg">
+                <img
+                  src={CatImg[actImg].image}
+                  className=" w-[400px] h-[400px]"
+                  alt="banner"
+                />
+              </div>
+            </div> */}
+            </div>
           </div>
-        </div>
-        <div className="w-[30%] p-4">
-          <div className="flex gap-4 items-center place-content-center">
+          <div className="w-[50%] flex items-center content-center place-content-center p-8">
+            <Link to={"/"}>
+              <img src={Logo} alt="logo" className="w-[60px]" />
+            </Link>
+          </div>
+          <div className="w-[20%] text-center flex justify-right p-1">
+            {/* <div className="flex gap-4 items-center place-content-center"> */}
             <div
               onClick={handleAccClick}
               className="relative flex items-center rounded-md p-3 px-4 gap-2 cursor-pointer"
             >
-              <FiUser size={25} className="text-primary1" />
-              <p className="text-sm tracking-tighter text-primary1 font-semibold">
-                Account
-              </p>
+              <FiUser size={20} className="text-primary1" />
               {!accClick ? (
                 <IoIosArrowDown size={15} className="text-primary1" />
               ) : (
@@ -113,7 +138,7 @@ function Header() {
                 </div>
               )}
             </div>
-            <div
+            {/* <div
               onClick={openCart}
               className=" flex border-l items-center cursor-pointer place-content-center text-primary1 p-3 px-6 gap-2"
             >
@@ -126,52 +151,26 @@ function Header() {
                   Total Amount is $80
                 </p>
               </div>
-            </div>
+            </div> */}
+            {/* </div> */}
           </div>
         </div>
-      </div>
 
-      <div className="w-[100vw] relative shadow-md bg-primary1 p-2">
-        <div className="w-[88%] m-auto mt-1 flex items-center">
-          <div
-            className={`w-1/2 flex gap-2 items-center cursor-pointer`}
-            onClick={handleCatClick}
-          >
-            <RxHamburgerMenu className="text-white" />
-            <p className="font-semibold tracking-tight text-white text-md capitalize">
-              category
-            </p>
-            {!catClick ? (
-              <IoIosArrowDown className="text-white" />
-            ) : (
-              <IoIosArrowUp className="text-white" />
-            )}
+        <div className="w-[100vw] p-2 bg-primary1">
+          <div className="flex gap-2">
+            <input
+              type="search"
+              className="p-2 w-[70%] border  rounded-md border-dark/50 outline-none"
+            />
+            <button className="bg-secondary w-[30%] text-sm rounded-md text-white flex items-center place-content-center gap-2">
+              <FaMagnifyingGlass size={10} />{" "}
+              <span className="font-semibold">Search</span>
+            </button>
           </div>
         </div>
-        {catClick && (
-          <div className="absolute flex z-50 left-[5%] w-[90%] top-11 bg-neutral rounded-lg">
-            <div className="w-[30%] bg-white list-none h-[28rem] overflow-scroll">
-              {category.map(({ slug, name }) => (
-                <li className="flex justify-between items-center tracking-tight hover:bg-neutral p-4 px-8 text-sm">
-                  <p>{name}</p> <GrNext />
-                </li>
-              ))}
-            </div>
-            <div className="w-[50%] p-8">Main category</div>
-            <div className="w-[30%] p-4">
-              <div className=" bg-white p-2 rounded-lg">
-                <img
-                  src={CatImg[actImg].image}
-                  className=" w-[400px] h-[400px]"
-                  alt="banner"
-                />
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </header>
   );
 }
 
-export default Header;
+export default MobileHeader;

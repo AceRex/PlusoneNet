@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { fetchProducts } from "../../Redux/slice/productSlice.js";
 import CartModal from "../Cart/cart.js";
 import Order from "../Order/order.js";
+import MobileHeader from "../../Components/mobileHeader.js";
 import { Outlet } from "react-router-dom";
 
 function Main() {
@@ -24,6 +25,7 @@ function Main() {
   return (
     <>
       <Header />
+      <MobileHeader />
       {productStatus === "loading" && <Loading />}
       <Outlet />
       {productStatus === "failed" && <div>{error}</div>}
