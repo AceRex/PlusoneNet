@@ -6,6 +6,7 @@ import { fetchProducts } from "../../Redux/slice/productSlice.js";
 import CartModal from "../Cart/cart.js";
 import Order from "../Order/order.js";
 import { Outlet } from "react-router-dom";
+import HeroSection from "./heroSection.js";
 
 function Main() {
   const dispatch = useDispatch();
@@ -24,8 +25,9 @@ function Main() {
   return (
     <>
       <Header />
+      <HeroSection />
       {productStatus === "loading" && <Loading />}
-       <Outlet />
+      <Outlet />
       {productStatus === "failed" && <div>{error}</div>}
       {cartModal && <CartModal />}
       {orderModal && <Order />}
