@@ -65,30 +65,40 @@ function HeroSection() {
   }, []);
 
   return (
-    <div className="w-[93%] m-auto mb-4 p-4 bg-white rounded-lg">
+    <div className="w-[93%] m-auto mb-1 p-3 bg-white rounded-lg">
       <div className="w-[100%] relative overflow-hidden rounded-lg">
         <div className="h-[100%] flex items-center content-center place-content-center w-[5%] absolute top-0 left-0">
           <div
             onClick={handlePrevious}
-            className=" w-[50%] flex items-center content-center place-content-center h-[20%] rounded-lg  bg-primary4/15 hover:bg-primary4 mx-auto  "
+            className=" w-[50%] flex items-center content-center place-content-center h-[20%] rounded-lg text-primary5  bg-primary4/15 hover:bg-primary4 hover:text-dark mx-auto  "
           >
             <GrPrevious />
           </div>
         </div>
-        <div className="w-[1550px] h-[400px] object-cover">
+        <div className="w-[1550px] h-[450px] object-cover">
           <img
             src={ImageData[currentIndex].image}
             alt="banner"
-            className="w-[100%] h-[400px] object-cover"
+            className="w-[100%] h-[450px] object-cover"
           />
         </div>
         <div className="h-[100%] flex items-center content-center place-content-center w-[5%] absolute top-0 right-0">
           <div
             onClick={handleNext}
-            className=" w-[50%] flex items-center content-center place-content-center h-[20%] rounded-lg bg-primary4/15 hover:bg-primary4 mx-auto  "
+            className=" w-[50%] flex items-center content-center place-content-center h-[20%] rounded-lg text-primary5  bg-primary4/15 hover:bg-primary4 hover:text-dark mx-auto  "
           >
             <GrNext />
           </div>
+        </div>
+        <div className="absolute w-[100%] flex justify-center gap-4 m-auto bottom-2">
+        {ImageData.map((_, index) => (
+          <div
+            key={index}
+            className={`p-1 mx-1 rounded-full ${
+              currentIndex === index ? "border border-primary4" : "bg-primary5"
+            }`}
+          ></div>
+        ))}
         </div>
       </div>
     </div>

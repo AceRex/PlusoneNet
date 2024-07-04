@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Row from "../../Components/row";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import Itemcard from "../../Components/itemcard";
+import HeroSection from "./heroSection";
 
 export default function Main() {
   const products = useSelector((state) => state.products.items);
@@ -16,6 +17,8 @@ export default function Main() {
   }, [products, currentPage, rowsPerPage]);
   return (
     <>
+      <HeroSection />
+
       <Row>
         {paginatedProduct.map((product) => (
           <Itemcard

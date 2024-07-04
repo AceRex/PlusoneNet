@@ -8,10 +8,11 @@ module.exports = {
       primary3: "#85A5F2",
       primary4: "#BFD2F8",
       primary5: "#E9EEFE",
+      secondary: "#1EDDE1",
       dark: "#181818",
       neutral: "#f0f0f0",
       white: "#fff",
-      error: "#B9434C"
+      error: "#B9434C",
     },
     extend: {},
   },
