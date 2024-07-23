@@ -19,6 +19,10 @@ import {
   deleteOrderById,
   getOrderById,
 } from "../controller/orderController.js";
+import {
+  allCategory,
+  createCategory,
+} from "../controller/categoryController.js";
 // import { protect } from "../middleware/authMiddleware.js";
 
 router.get("/products", allProduct);
@@ -38,6 +42,8 @@ router
     // protect,
     deleteProductById
   );
+router.get("/category", allCategory);
+router.post("/category/create", createCategory);
 router
   .route("/order")
   .get(
